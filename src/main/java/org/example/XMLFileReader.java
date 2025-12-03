@@ -34,6 +34,7 @@ public class XMLFileReader {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return;
     }
 
     public static String getNodeValue(NodeList n) {
