@@ -9,8 +9,8 @@ public class Laps {
     ArrayList<Tracks> tracks = new ArrayList<>();
 
     public Laps(Node node) {
-
-        ArrayListConverter<Laps> converter = new ArrayListConverter<>(activityElement.getElementsByTagName("Tracks"),Lapnode -> new Laps(Lapnode));
+        Element activityElement = (Element) node;
+        ArrayListConverter<Tracks> converter = new ArrayListConverter<>(activityElement.getElementsByTagName("Track"),Tracknode -> new Tracks(Tracknode));
         tracks = converter.getList();
     }
 
