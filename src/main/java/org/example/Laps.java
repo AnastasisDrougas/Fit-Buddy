@@ -12,6 +12,7 @@ public class Laps {
         Element activityElement = (Element) node;
         ArrayListConverter<Tracks> converter = new ArrayListConverter<>(activityElement.getElementsByTagName("Track"),Tracknode -> new Tracks(Tracknode));
         tracks = converter.getList();
+        System.out.println("Laps");
     }
 
 }

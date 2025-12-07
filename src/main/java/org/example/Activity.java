@@ -15,6 +15,8 @@ public class Activity {
         sport = activityElement.getAttribute("Sport");
         ArrayListConverter<Laps> converter = new ArrayListConverter<>(activityElement.getElementsByTagName("Lap"),Lapnode -> new Laps(Lapnode));
         laps = converter.getList();
+        System.out.println("Activity");
+        System.out.println(sport);
     }
 
 }
