@@ -13,6 +13,8 @@ public class Trackpoints {
     private double longitude;
     private double latitude;
     private double altitude;
+    private double distanceMeters;
+    private double speed;
     private int heartRate;
     private int cadence;
 
@@ -20,7 +22,7 @@ public class Trackpoints {
         Element trackpointElement = (Element) node;
         initiator(trackpointElement);
         System.out.println("Trackpoint");
-        System.out.println(longitude);
+        //System.out.println(longitude);
         //cadence = Integer.parseInt(TrackpointElement.getAttribute(""));
     }
 
@@ -52,12 +54,20 @@ public class Trackpoints {
 
         }else {longitude = 0; latitude = 0;}
 
+
         // -> Altitude.
         NodeList altList = element.getElementsByTagName("AltitudeMeters");
         String altStr = altList.item(0).getTextContent();
         if((altStr != null && !altStr.isEmpty())){
             altitude = Double.parseDouble(altStr);
         }else{ altitude = 0; }
+
+        // -> DistanceMeters
+        NodeList distList = element.getElementsByTagName("DistanceMeters");
+        String distStr = distList.item(0).getTextContent();
+        if((distStr != null && !distStr.isEmpty())){
+            distanceMeters = Double.parseDouble(distStr);
+        }else{ distanceMeters = 0; }
 
         //Heart Rate -> heartRate value.
         NodeList heartrateList = element.getElementsByTagName("HeartRateBpm");
@@ -71,7 +81,25 @@ public class Trackpoints {
             }else{ heartRate = 0; }
         }else { heartRate = 0; }
 
-        // Cadence (optional, safe default)
-        cadence = 0;
+        // Extension -> ns3 : TPX -> speed, rundCadance
+        NodeList ExtList = element.getElementsByTagName("Extensions");
+        if (ExtList.getLength() > 0) {
+            Element ns3  = (Element) ExtList.item(0);
+
+            String speedStr = ns3.getElementsByTagName("ns3:Speed").item(0).getTextContent();
+            String cadenceStr = ns3.getElementsByTagName("ns3:RunCadence").item(0).getTextContent();
+
+            if ((speedStr != null && !speedStr.isEmpty())) {
+                speed = Double.parseDouble(speedStr);
+            } else { speed = 0; }
+
+            if ((cadenceStr != null && !cadenceStr.isEmpty())) {
+                cadence = Integer.parseInt(cadenceStr);
+            } else { cadence = 0; }
+        } else {
+            speed = 0;
+            cadence = 0;
+        }
+
     }
 }
