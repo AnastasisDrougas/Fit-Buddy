@@ -22,7 +22,13 @@ public class Trackpoints {
         Element trackpointElement = (Element) node;
         initiator(trackpointElement);
         System.out.println("Trackpoint");
-        //System.out.println(longitude);
+        System.out.println(longitude);
+        System.out.println(latitude);
+        System.out.println(altitude);
+        System.out.println(distanceMeters);
+        System.out.println(speed);
+        System.out.println(heartRate);
+        System.out.println(cadence);
         //cadence = Integer.parseInt(TrackpointElement.getAttribute(""));
     }
 
