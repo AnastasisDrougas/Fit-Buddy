@@ -22,6 +22,7 @@ public class Trackpoints {
         Element trackpointElement = (Element) node;
         initiator(trackpointElement);
         System.out.println("Trackpoint");
+        System.out.println(timestamp);
         System.out.println(longitude);
         System.out.println(latitude);
         System.out.println(altitude);
@@ -29,6 +30,7 @@ public class Trackpoints {
         System.out.println(speed);
         System.out.println(heartRate);
         System.out.println(cadence);
+        System.out.println("\n\n\n");
         //cadence = Integer.parseInt(TrackpointElement.getAttribute(""));
     }
 
@@ -92,8 +94,20 @@ public class Trackpoints {
         if (ExtList.getLength() > 0) {
             Element ns3  = (Element) ExtList.item(0);
 
-            String speedStr = ns3.getElementsByTagName("ns3:Speed").item(0).getTextContent();
-            String cadenceStr = ns3.getElementsByTagName("ns3:RunCadence").item(0).getTextContent();
+            //String speedStr = ns3.getElementsByTagName("ns3:Speed").item(0).getTextContent();
+            //String cadenceStr = ns3.getElementsByTagName("ns3:RunCadence").item(0).getTextContent();
+
+            NodeList speedList = ns3.getElementsByTagName("ns3:Speed");
+            String speedStr = null;
+            if (speedList.getLength() > 0 && speedList.item(0) != null) {
+                speedStr = speedList.item(0).getTextContent();
+            }
+
+            NodeList cadenceList = ns3.getElementsByTagName("ns3:RunCadence");
+            String cadenceStr = null;
+            if (cadenceList.getLength() > 0 && cadenceList.item(0) != null) {
+                cadenceStr = cadenceList.item(0).getTextContent();
+            }
 
             if ((speedStr != null && !speedStr.isEmpty())) {
                 speed = Double.parseDouble(speedStr);

@@ -1,6 +1,8 @@
 package org.example;
 
 public class Main {
+    // mvn clean package
+    // java -cp target/CoachFitness-1.0-SNAPSHOT.jar org.example.Main walking_activity_1.tcx
 
     public static void main(String[] args) {
 
