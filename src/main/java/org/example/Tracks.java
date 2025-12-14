@@ -10,9 +10,10 @@ public class Tracks {
 
     public Tracks(Node node) {
         Element activityElement = (Element) node;
+        System.out.println("Tracks");
         ArrayListConverter<Trackpoints> converter = new ArrayListConverter<>(activityElement.getElementsByTagName("Trackpoint"),Trackpointnode -> new Trackpoints(Trackpointnode));
         trackpoints = converter.getList();
-        System.out.println("tracks");
+
     }
 
 }

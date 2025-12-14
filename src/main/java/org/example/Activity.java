@@ -13,10 +13,12 @@ public class Activity {
     public Activity(Node node) {
         Element activityElement = (Element) node;
         sport = activityElement.getAttribute("Sport");
-        ArrayListConverter<Laps> converter = new ArrayListConverter<>(activityElement.getElementsByTagName("Lap"),Lapnode -> new Laps(Lapnode));
-        laps = converter.getList();
         System.out.println("Activity");
         System.out.println(sport);
+        ArrayListConverter<Laps> converter = new ArrayListConverter<>(activityElement.getElementsByTagName("Lap"),Lapnode -> new Laps(Lapnode));
+        laps = converter.getList();
+
+
     }
 
 }
