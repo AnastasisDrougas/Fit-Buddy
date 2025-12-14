@@ -7,6 +7,11 @@ import java.util.ArrayList;
 
 public class Tracks {
     ArrayList<Trackpoints> trackpoints = new ArrayList<>();
+    private double distanceSum = 0;
+    private double avgHeartRate = 0;
+    private double avgSpeed = 0;
+
+
 
     public Tracks(Node node) {
         Element activityElement = (Element) node;
@@ -15,4 +20,7 @@ public class Tracks {
         System.out.println("tracks");
     }
 
+    public ArrayList<Trackpoints> getTrackpoints() {
+        return trackpoints;
+    }
 }

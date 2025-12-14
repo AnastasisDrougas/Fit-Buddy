@@ -65,10 +65,16 @@ public class Trackpoints {
 
         // -> Altitude.
         NodeList altList = element.getElementsByTagName("AltitudeMeters");
-        String altStr = altList.item(0).getTextContent();
-        if((altStr != null && !altStr.isEmpty())){
-            altitude = Double.parseDouble(altStr);
-        }else{ altitude = 0; }
+        if (altList.getLength() > 0 && altList.item(0) != null) {
+            String altStr = altList.item(0).getTextContent();
+            if ((altStr != null && !altStr.isEmpty())) {
+                altitude = Double.parseDouble(altStr);
+            } else {
+                altitude = 0;
+            }
+        } else {
+            altitude = 0;
+        }
 
         // -> DistanceMeters
         NodeList distList = element.getElementsByTagName("DistanceMeters");
@@ -122,4 +128,12 @@ public class Trackpoints {
         }
 
     }
+
+    public double getDistanceMeters() {
+        return distanceMeters;
+    }
+
+//    public double getDistanceFrom(Trackpoints other) {
+//        return this.distanceMeters - other.getDistanceMeters();
+//    }
 }
