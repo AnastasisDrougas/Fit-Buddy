@@ -8,10 +8,13 @@ import java.util.ArrayList;
 
 public class Activity {
     private ArrayList<Laps> laps = new ArrayList<>();
-    private Calculator totalDistanceCalculator = new TotalDistanceCalculator();
-    private Calculator avgHeartRateBpmCalculator = new AvgHeartRateBpmCalculator();
+    private Calculator<Double> totalDistanceCalculator = new TotalDistanceCalculator();
+    private Calculator<Double> avgHeartRateBpmCalculator = new AvgHeartRateBpmCalculator();
+    private Calculator<Double> totalTimeCalculator = new TotalTimeCalculator();
     private double totalDistance;
     private double avgHeartRate;
+    private double totalTime;
+    private double avgSpeed;
     private String sport;
 
     public Activity(Node node) {
@@ -28,6 +31,8 @@ public class Activity {
     private void initiator(){
         avgHeartRate = (double) avgHeartRateBpmCalculator.calculate(this);
         totalDistance = (double) totalDistanceCalculator.calculate(this);
+        totalTime = (double) totalTimeCalculator.calculate(this) / 60;
+        avgSpeed = (totalDistance / 1000) / (totalTime / 60); // km/h.
     }
 
     public double getAvgHeartRate() {
@@ -42,9 +47,15 @@ public class Activity {
         return sport;
     }
 
-
-
     public ArrayList<Laps> getLaps() {
         return laps;
+    }
+
+    public double getTotalTime() {
+        return totalTime;
+    }
+
+    public double getAvgSpeed() {
+        return avgSpeed;
     }
 }

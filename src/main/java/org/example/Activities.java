@@ -19,9 +19,11 @@ public class Activities {
 
     private void test(){
         for(Activity activity : activities){
-            System.out.println(activity.getSport());
-            System.out.println(activity.getTotalDistance());
-            System.out.println(activity.getAvgHeartRate());
+            System.out.println("Sport: " + activity.getSport());
+            System.out.println("Distance: " + activity.getTotalDistance() + " meters");
+            System.out.println("Heart Rate: " + activity.getAvgHeartRate() + " bpm");
+            System.out.println("TotalTime: " + activity.getTotalTime() + " mins");
+            System.out.println("Average Speed " + activity.getAvgSpeed() + " km/h");
 
             System.out.println("\n");
         }

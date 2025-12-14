@@ -9,13 +9,13 @@ import java.util.ArrayList;
 public class Laps {
     ArrayList<Tracks> tracks = new ArrayList<>();
     private double distanceMeters;
+    private double timeInSeconds;
 
     public Laps(Node node) {
         Element activityElement = (Element) node;
         ArrayListConverter<Tracks> converter = new ArrayListConverter<>(activityElement.getElementsByTagName("Track"),Tracknode -> new Tracks(Tracknode));
         tracks = converter.getList();
         initiator(activityElement);
-        System.out.println("Laps");
     }
 
     private void initiator(Element element){
@@ -25,6 +25,12 @@ public class Laps {
             distanceMeters = Double.parseDouble(distStr);
         }else{ distanceMeters = 0; }
 
+        NodeList TimeList = element.getElementsByTagName("TotalTimeSeconds");
+        String TimeStr = TimeList.item(0).getTextContent();
+        if((TimeStr != null && !TimeStr.isEmpty())){
+            timeInSeconds= Double.parseDouble(TimeStr);
+        }else{ timeInSeconds = 0; }
+
     }
 
     public ArrayList<Tracks> getTracks() {
@@ -33,5 +39,9 @@ public class Laps {
 
     public double getDistanceMeters() {
         return distanceMeters;
+    }
+
+    public double getTimeInSeconds() {
+        return timeInSeconds;
     }
 }

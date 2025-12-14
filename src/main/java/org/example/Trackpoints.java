@@ -21,17 +21,17 @@ public class Trackpoints {
     public Trackpoints(Node node) {
         Element trackpointElement = (Element) node;
         initiator(trackpointElement);
-        System.out.println("Trackpoint");
-        System.out.println(timestamp);
-        System.out.println(longitude);
-        System.out.println(latitude);
-        System.out.println(altitude);
-        System.out.println(distanceMeters);
-        System.out.println(speed);
-        System.out.println(heartRate);
-        System.out.println(cadence);
-        System.out.println("\n\n\n");
-        //cadence = Integer.parseInt(TrackpointElement.getAttribute(""));
+//        System.out.println("Trackpoint");
+//        System.out.println(timestamp);
+//        System.out.println(longitude);
+//        System.out.println(latitude);
+//        System.out.println(altitude);
+//        System.out.println(distanceMeters);
+//        System.out.println(speed);
+//        System.out.println(heartRate);
+//        System.out.println(cadence);
+//        System.out.println("\n\n\n");
+
     }
 
     private void initiator(Element element) {
