@@ -24,6 +24,13 @@ public class Activities {
             System.out.println("Heart Rate: " + activity.getAvgHeartRate() + " bpm");
             System.out.println("TotalTime: " + activity.getTotalTime() + " mins");
             System.out.println("Average Speed " + activity.getAvgSpeed() + " km/h");
+            System.out.println("Average Pace " + activity.getAvgPace() + " min/km");
+            if(activity.getMaxPace() == 0 || activity.getMinPace() == 0 ){
+                System.out.println("Minimum & Maximum Pace cannot be calculated!");
+            }else{
+                System.out.println("Maximum pace reached: " +  activity.getMaxPace());
+                System.out.println("Minimum pace reached: " +  activity.getMinPace());
+            }
 
             System.out.println("\n");
         }

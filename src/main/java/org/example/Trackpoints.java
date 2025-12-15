@@ -137,7 +137,7 @@ public class Trackpoints {
         return distanceMeters;
     }
 
-//    public double getDistanceFrom(Trackpoints other) {
-//        return this.distanceMeters - other.getDistanceMeters();
-//    }
+    public double getSpeed() {
+        return speed;
+    }
 }
