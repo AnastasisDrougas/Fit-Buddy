@@ -19,7 +19,7 @@
    cd CoachFitness
 2. Using Maven:
    - mvn package
-   - java -cp target/CoachFitness-1.0-SNAPSHOT.jar org.example.Main yourTCXFile.tcx
+   - java -jar target/CoachFitness-1.0-SNAPSHOT.jar -w WeightValue -s Sex('m' or 'f') -a AgeValue yourTCXFile.tcx
 
      
 
