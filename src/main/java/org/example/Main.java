@@ -8,15 +8,20 @@ package org.example;
 /**
  * This program extracts data from a TCX file.
  * It uses multiple ArrayLists that are managed hierarchically.
- * Calculates and prints the user's statistics
- * Calculates and prints the calories burned using the extracted data and personal user info
+ * Calculates and prints the user's statistics.
+ * Calculates and prints the calories burned using the extracted data and personal user info.
  */
 
 public class Main {
     public static void main(String[] args) {
         if (args.length == 0) {
-            System.out.println("No arguments given!");
+            //GUI Implementation.
+            ViewUI view = new ViewUI();
+            new ControllerUI(view);
+            view.setVisible(true);
+            System.out.println("Nigga, not here, in the window, nigga");
         } else {
+            //CLI Implementation.
             ArgumentReader arg = new ArgumentReader();
             arg.separator(args);
             arg.fileNamesList();
