@@ -19,7 +19,7 @@ public class Main {
             ViewUI view = new ViewUI();
             new ControllerUI(view);
             view.setVisible(true);
-            System.out.println("GUI Window opened...");
+            System.out.println("GUI Window Successfully opened...");
         } else {
             //CLI Implementation.
             ArgumentReader arg = new ArgumentReader();
