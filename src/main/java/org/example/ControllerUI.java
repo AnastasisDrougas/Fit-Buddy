@@ -4,18 +4,20 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ControllerUI {
     private ViewUI view;
     private ArrayList<Activity> activities = new ArrayList<>();
     private XMLFileReader xmlFile = new XMLFileReader();
     private CalorieCalculator calorieCalculatorUI  = new CalorieCalculator();
+    private boolean wantsDailyGoal;
+    private ArrayList<Double> caloriesList;
+    HashMap<String, Double> dailyGoalMap = new HashMap<>();
 
     public ControllerUI(ViewUI view){
         this.view = view;
@@ -74,6 +76,7 @@ public class ControllerUI {
         JTextField timeField = new JTextField(5);
         JTextField hrField = new JTextField(5);
         JTextField speedField = new JTextField(5);
+        JTextField paceField = new JTextField(5);
         JTextField dateField = new JTextField(5);
 
         JPanel addActivityPanel = new JPanel();
@@ -86,8 +89,10 @@ public class ControllerUI {
         addActivityPanel.add(timeField);
         addActivityPanel.add(new JLabel("Avg Heart Rate:"));
         addActivityPanel.add(hrField);
-        addActivityPanel.add(new JLabel("Avg Speed Rate (km/h):"));
+        addActivityPanel.add(new JLabel("Avg Speed (km/h) (Cycling etc):"));
         addActivityPanel.add(speedField);
+        addActivityPanel.add(new JLabel("Avg Pace (m/km) (Running etc):"));
+        addActivityPanel.add(paceField);
         addActivityPanel.add(new JLabel("Date (YYYY-MM-DD):"));
         addActivityPanel.add(dateField);
 
@@ -101,6 +106,7 @@ public class ControllerUI {
                 double time = Double.parseDouble(timeField.getText());
                 int hr = Integer.parseInt(hrField.getText());
                 double speed =  Double.parseDouble(speedField.getText());
+                double pace = Double.parseDouble(paceField.getText());
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 LocalDate date = LocalDate.parse(dateField.getText(), formatter);
 
@@ -111,7 +117,7 @@ public class ControllerUI {
                     throw new IllegalArgumentException("Please enter valid information!");
                 }
 
-                Activity manualActivity = new Activity(sport, dist, time, speed, hr, date);
+                Activity manualActivity = new Activity(sport, dist, time, speed, pace, hr, date);
                 activities.add(manualActivity);
                 //Refresh table, add the new manually added activity.
                 refreshTable();
@@ -141,7 +147,7 @@ public class ControllerUI {
         } else {
             return;
         }
-        ArrayList<Double> caloriesList = updateStats();
+        caloriesList = updateStats();
         view.getCard3().getTableModel().setRowCount(0);
         for(int i = 0; i < activities.size(); i++) {
             Activity a = activities.get(i);
@@ -152,6 +158,7 @@ public class ControllerUI {
             String formatedTime = String.format("%.2f", a.getTotalTime());
             String formatedHr = String.format("%.2f", a.getAvgHeartRate());
             String formatedAvgPace = "N/A";
+
             if(!a.getSport().equals("Biking")){
                 formatedAvgPace = String.format("%.2f", a.getAvgPace());
             } else {
@@ -164,8 +171,14 @@ public class ControllerUI {
 
     public void next1Button(){
         try {
+            String check = view.getCard1().getGoalField().getText();
+            double goal = 0;
+            if(!check.isEmpty()){
+                goal = Double.parseDouble(view.getCard1().getGoalField().getText());
+                wantsDailyGoal = true;
+            }else{ wantsDailyGoal = false; }
+
             double weight = Double.parseDouble(view.getCard1().getWeightField().getText());
-            double goal = Double.parseDouble(view.getCard1().getGoalField().getText());
             int age = Integer.parseInt(view.getCard1().getAgeField().getText());
 
             if (!view.getCard1().getMale().isSelected() && !view.getCard1().getFemale().isSelected()) {
@@ -174,6 +187,7 @@ public class ControllerUI {
             if( weight <= 0 || age <= 0 || goal < 0){
                 throw new IllegalArgumentException("Please enter valid information!");
             }
+
             view.showFormula();
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(null, "Please enter valid numbers for all fields.");
@@ -210,13 +224,12 @@ public class ControllerUI {
         return activityCalories;
     }
 
-    //Refresh table and add the activity that the user put mannually.
+    //Refresh table and add the activity that the user put manually.
     private void refreshTable() {
         view.getCard3().getTableModel().setRowCount(0);
         //For each activity:
         for (Activity a : activities) {
             double calories = calorieCalculatorUI.calculateCaloriesForGUI(a, view);
-
             String formatedDistance = String.format("%.2f", a.getTotalDistance());
             String formatedSpeed = "N/A";
             String formatedCalories = String.format("%.2f", calories);
@@ -232,5 +245,6 @@ public class ControllerUI {
             view.getCard3().getTableModel().addRow(row);
         }
     }
+
 
 }

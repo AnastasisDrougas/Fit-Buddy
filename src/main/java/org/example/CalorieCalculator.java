@@ -46,7 +46,6 @@ public class CalorieCalculator {
             double met = metMap.get(a.getSport().trim());
             calc = new CalorieCalculator(met, weight, timeMinutes);
         }
-
         return calc.getCalories();
     }
 

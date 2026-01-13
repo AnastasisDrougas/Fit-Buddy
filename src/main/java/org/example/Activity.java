@@ -56,12 +56,13 @@ public class Activity {
         initiator();
     }
 
-    public Activity(String sport, double dist, double time,double speed, int hr, LocalDate date) {
+    public Activity(String sport, double dist, double time,double speed, double pace, int hr, LocalDate date) {
         this.sport = sport;
         this.totalDistance = dist;
         this.totalTime = time;
         this.avgHeartRate = hr;
         this.avgSpeed = speed;
+        this.avgPace = pace;
         this.date = date;
     }
 
@@ -132,7 +133,6 @@ public class Activity {
                             .atZone(ZoneId.systemDefault())
                             .toLocalDate();
                 } catch (DateTimeParseException e) {
-                    // ignore or log invalid TCX
                 }
             }
         }
