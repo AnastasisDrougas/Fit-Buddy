@@ -40,23 +40,25 @@ public class ControllerUI {
                 String report = "--- Daily Goal not provided ---\n\n";
                 if(wantsDailyGoal){
                     report = "--- Daily Goal Report ---\n\n";
+
                     if(!activities.isEmpty()) {
                         DailyGoalAchievementLogic data = new DailyGoalAchievementLogic();
                         data.isDailyGoalAchieved(activities, caloriesList, dailyGoalMap);
                         double goal = Double.parseDouble(view.getCard1().getGoalField().getText());
+                        report +="Goal = " + goal + "kcal\n\n";
 
                         for(HashMap.Entry<String, Double> entry : dailyGoalMap.entrySet()) {
                             String date = entry.getKey(); // From Activity.java
                             double total = entry.getValue();
 
                             report += "Date: " + date + "\n";
-                            report += "Total: " + total + " kcal\n";
+                            report += "Total: " + String.format("%.2f",total) + " kcal\n";
 
                             if (total >= goal) {
                                 report += "Status: Goal Achieved!\n";
                             } else {
                                 double remaining = goal - total;
-                                report += "Status: " + remaining + " kcal remaining\n";
+                                report += "Status: " + String.format("%.2f",remaining) + " kcal remaining\n";
                             }
                             report += "--------------------------\n";
                         }
@@ -65,11 +67,17 @@ public class ControllerUI {
                     }
 
                 }
-                JTextArea textArea = new JTextArea(report);
-                textArea.setEditable(false);
 
-                JScrollPane scrollPane = new JScrollPane(textArea);
+
+                JTextPane textPane = new JTextPane();
+                textPane.setText(report);
+                textPane.setEditable(false);
+                textPane.setOpaque(false);
+
+                JScrollPane scrollPane = new JScrollPane(textPane);
+                scrollPane.setOpaque(false);
                 scrollPane.setPreferredSize(new Dimension(100,300));
+                scrollPane.setBorder(null);
 
                 JOptionPane.showMessageDialog(null, scrollPane, "Daily Achievements", JOptionPane.INFORMATION_MESSAGE);
             }

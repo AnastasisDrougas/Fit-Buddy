@@ -22,15 +22,14 @@ public class XMLFileReader {
 
     public Activities fileReader(String filename){
         Activities list = null;
-        try {
+          try {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(new FileInputStream(filename));
-            list = new Activities(doc.getElementsByTagName("Activity"));
+            return new Activities(doc.getElementsByTagName("Activity"));
         } catch (Exception e) {
-            System.out.println("Wrong file type!");
-            e.printStackTrace();
+            System.err.println("Invalid or empty XML file skipped: " + filename);
+            return new Activities();
         }
-        return list;
     }
 
     public void processXMLFiles(File[] fileList, ArrayList<Activity> activities){

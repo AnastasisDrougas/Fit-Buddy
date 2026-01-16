@@ -21,6 +21,11 @@ public class Activities {
      * how to transform each node into an Activity
      * using the Activity constructor.
      */
+
+    public Activities() {
+        this.activities = new ArrayList<>();
+    }
+
     public Activities(NodeList nodes) {
         ArrayListConverter<Activity> converter =
             new ArrayListConverter<>(
