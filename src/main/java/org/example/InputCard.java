@@ -6,9 +6,9 @@ import java.awt.*;
 
 public class InputCard extends JPanel {
 
-    public  JTextField weightField = new JTextField(5);
-    public  JTextField ageField = new JTextField(5);
-    public  JTextField goalField = new JTextField(5);
+    private  JTextField weightField = new JTextField(5);
+    private  JTextField ageField = new JTextField(5);
+    private  JTextField goalField = new JTextField(5);
 
     private JRadioButton male = new JRadioButton("Male");
     private JRadioButton female = new JRadioButton("Female");

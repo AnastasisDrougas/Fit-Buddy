@@ -34,52 +34,15 @@ public class ControllerUI {
             }
         });
 
+        view.getCard3().getShowVO2max().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { VO2maxButton(); }
+        });
+
         view.getCard3().getShowDailyAchivement().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String report = "--- Daily Goal not provided ---\n\n";
-                if(wantsDailyGoal){
-                    report = "--- Daily Goal Report ---\n\n";
-
-                    if(!activities.isEmpty()) {
-                        DailyGoalAchievementLogic data = new DailyGoalAchievementLogic();
-                        data.isDailyGoalAchieved(activities, caloriesList, dailyGoalMap);
-                        double goal = Double.parseDouble(view.getCard1().getGoalField().getText());
-                        report +="Goal = " + goal + "kcal\n\n";
-
-                        for(HashMap.Entry<String, Double> entry : dailyGoalMap.entrySet()) {
-                            String date = entry.getKey(); // From Activity.java
-                            double total = entry.getValue();
-
-                            report += "Date: " + date + "\n";
-                            report += "Total: " + String.format("%.2f",total) + " kcal\n";
-
-                            if (total >= goal) {
-                                report += "Status: Goal Achieved!\n";
-                            } else {
-                                double remaining = goal - total;
-                                report += "Status: " + String.format("%.2f",remaining) + " kcal remaining\n";
-                            }
-                            report += "--------------------------\n";
-                        }
-                    } else {
-                        report = "No data provided yet!";
-                    }
-
-                }
-
-
-                JTextPane textPane = new JTextPane();
-                textPane.setText(report);
-                textPane.setEditable(false);
-                textPane.setOpaque(false);
-
-                JScrollPane scrollPane = new JScrollPane(textPane);
-                scrollPane.setOpaque(false);
-                scrollPane.setPreferredSize(new Dimension(100,300));
-                scrollPane.setBorder(null);
-
-                JOptionPane.showMessageDialog(null, scrollPane, "Daily Achievements", JOptionPane.INFORMATION_MESSAGE);
+                dailyGoalButton();
             }
         });
         view.getNext1().addActionListener(new ActionListener() {
@@ -183,6 +146,115 @@ public class ControllerUI {
                 JOptionPane.showMessageDialog(null, "Date must be YYYY-MM-DD!", "Date Error", JOptionPane.ERROR_MESSAGE);
             }
         }
+    }
+
+    private void dailyGoalButton(){
+        String report = "--- Daily Goal not provided ---\n\n";
+        if(wantsDailyGoal){
+            report = "--- Daily Goal Report ---\n\n";
+
+            if(!activities.isEmpty()) {
+                DailyGoalAchievementLogic data = new DailyGoalAchievementLogic();
+                data.isDailyGoalAchieved(activities, caloriesList, dailyGoalMap);
+                double goal = Double.parseDouble(view.getCard1().getGoalField().getText());
+                report +="Goal = " + goal + "kcal\n\n";
+
+                for(HashMap.Entry<String, Double> entry : dailyGoalMap.entrySet()) {
+                    String date = entry.getKey(); // From Activity.java
+                    double total = entry.getValue();
+
+                    report += "Date: " + date + "\n";
+                    report += "Total: " + String.format("%.2f",total) + " kcal\n";
+
+                    if (total >= goal) {
+                        report += "Status: Goal Achieved!\n";
+                    } else {
+                        double remaining = goal - total;
+                        report += "Status: " + String.format("%.2f",remaining) + " kcal remaining\n";
+                    }
+                    report += "--------------------------\n";
+                }
+            } else {
+                report = "No data provided yet!";
+            }
+
+        }
+
+
+        JTextPane textPane = new JTextPane();
+        textPane.setText(report);
+        textPane.setEditable(false);
+        textPane.setOpaque(false);
+
+        JScrollPane scrollPane = new JScrollPane(textPane);
+        scrollPane.setOpaque(false);
+        scrollPane.setPreferredSize(new Dimension(100,300));
+        scrollPane.setBorder(null);
+
+        JOptionPane.showMessageDialog(null, scrollPane, "Daily Achievements", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void VO2maxButton(){
+        String evaluation;
+        double vo2Max = 0;
+        double cal = 0;
+        int age = Integer.parseInt(view.getCard1().getAgeField().getText());
+        double totalTime = 0;
+        double rhr = 0;
+
+
+        String report = "--- VO2 Max Evaluation ---\n\n";
+
+        if(!activities.isEmpty()) {
+            for(int i = 0; i < activities.size(); i++) { totalTime += activities.get(i).getTotalTime(); }
+
+            JTextField rhrField = new JTextField(5);
+            JPanel showVO2max = new JPanel();
+            showVO2max.add(new JLabel("Resting Heart Rate:"));
+            showVO2max.add(rhrField);
+            int result = JOptionPane.showConfirmDialog(null, showVO2max, "VO2max", JOptionPane.OK_CANCEL_OPTION);
+
+            if(result == JOptionPane.CANCEL_OPTION) {
+                return;
+            } else if (result == JOptionPane.OK_OPTION && rhrField.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Please enter input", "Input Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            } else {
+                try {
+                    rhr = Double.parseDouble(rhrField.getText());
+                }catch(NumberFormatException ex){
+                    JOptionPane.showMessageDialog(null, "Please enter valid input", "Input Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+
+            VO2max vo2maxObj = new VO2max(age, rhr, totalTime);
+            vo2maxObj.calculateCalories(Double.parseDouble(view.getCard1().getWeightField().getText()));
+            vo2maxObj.evaluate(view.getCard1().getSexField());
+
+            vo2Max = vo2maxObj.getVo2Max();
+            cal = vo2maxObj.getCal();
+            evaluation = vo2maxObj.getEvaluation();
+
+            report += "Vo2 max: " + String.format("%.2f",vo2Max) + "\n";
+            report += "Calories(based on Vo2 max): " + String.format("%.2f",cal) + "kcal\n\n";
+            report += "Evaluation: " + evaluation + "\n\n";
+        } else {
+            report = "No data provided yet!";
+        }
+
+        JTextPane textPane = new JTextPane();
+        textPane.setText(report);
+        textPane.setEditable(false);
+        textPane.setOpaque(false);
+
+        JScrollPane scrollPane = new JScrollPane(textPane);
+        scrollPane.setOpaque(false);
+        scrollPane.setPreferredSize(new Dimension(200,170));
+        scrollPane.setBorder(null);
+
+        JOptionPane.showMessageDialog(null, scrollPane, "VO2max", JOptionPane.INFORMATION_MESSAGE);
+
     }
 
     public void chooseFile() {
@@ -298,6 +370,5 @@ public class ControllerUI {
             view.getCard3().getTableModel().addRow(row);
         }
     }
-
 
 }

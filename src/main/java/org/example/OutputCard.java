@@ -11,6 +11,7 @@ public class OutputCard extends JPanel {
     private JButton loadBtn = new JButton("Load your TCX files");
     private JButton addActivity = new JButton("Add Activity");
     private JButton showDailyAchivement = new JButton("Daily Goal Achievement");
+    private JButton showVO2max = new JButton("VO2max");
 
     public OutputCard(){
         this.setLayout(new BorderLayout());
@@ -22,9 +23,12 @@ public class OutputCard extends JPanel {
         bottomPanel.add(loadBtn);
         bottomPanel.add(addActivity);
         bottomPanel.add(showDailyAchivement);
+        bottomPanel.add(showVO2max);
         this.add(bottomPanel, BorderLayout.SOUTH);
 
     }
+
+    public JButton getShowVO2max() { return showVO2max; }
 
     public JButton getShowDailyAchivement() { return showDailyAchivement; }
 
