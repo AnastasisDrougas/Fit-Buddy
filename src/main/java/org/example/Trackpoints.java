@@ -128,15 +128,11 @@ public class Trackpoints {
 
     }
 
-    public int getHeartRate() {
-        return heartRate;
-    }
+    public LocalDateTime getTimestamp() { return timestamp; }
 
-    public double getDistanceMeters() {
-        return distanceMeters;
-    }
+    public int getHeartRate() { return heartRate; }
 
-    public double getSpeed() {
-        return speed;
-    }
+    public double getDistanceMeters() { return distanceMeters; }
+
+    public double getSpeed() { return speed; }
 }

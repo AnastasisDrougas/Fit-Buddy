@@ -39,6 +39,11 @@ public class ControllerUI {
             public void actionPerformed(ActionEvent e) { VO2maxButton(); }
         });
 
+        view.getCard3().getShowZone().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { ZoneEvaluationAction(); }
+        });
+
         view.getCard3().getShowDailyAchivement().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -369,6 +374,32 @@ public class ControllerUI {
             Object[] row = {a.getSport(), formatedDistance,formatedTime ,formatedHr ,formatedSpeed,formatedAvgPace,a.getDate(),formatedCalories};
             view.getCard3().getTableModel().addRow(row);
         }
+    }
+
+    private void ZoneEvaluationAction(){
+        int age = Integer.parseInt(view.getCard1().getAgeField().getText());
+        double weight = Double.parseDouble(view.getCard1().getWeightField().getText());
+
+
+        JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+
+        for (Activity activity : activities) {
+            ZoneEvaluation zone = new ZoneEvaluation(age, weight, activity);
+            zone.evaluation();
+            double cal = zone.calorieCalculator();
+            double []times = zone.getTimestamps();
+
+            JTextPane retval = view.getCard3().ZonePopUpWindow(activity.getSport(), times, cal);
+            contentPanel.add(retval);
+        }
+
+        JScrollPane scrollPane = new JScrollPane(contentPanel);
+        scrollPane.setOpaque(false);
+        scrollPane.setPreferredSize(new Dimension(350,250));
+        scrollPane.setBorder(null);
+
+        JOptionPane.showMessageDialog(null, scrollPane, "Zone Evaluation", JOptionPane.INFORMATION_MESSAGE);
     }
 
 }

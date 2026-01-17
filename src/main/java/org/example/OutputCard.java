@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class OutputCard extends JPanel {
     private JTable Table;
@@ -12,6 +13,7 @@ public class OutputCard extends JPanel {
     private JButton addActivity = new JButton("Add Activity");
     private JButton showDailyAchivement = new JButton("Daily Goal Achievement");
     private JButton showVO2max = new JButton("VO2max");
+    private JButton showZone = new JButton("Zone Evaluation");
 
     public OutputCard(){
         this.setLayout(new BorderLayout());
@@ -24,9 +26,12 @@ public class OutputCard extends JPanel {
         bottomPanel.add(addActivity);
         bottomPanel.add(showDailyAchivement);
         bottomPanel.add(showVO2max);
+        bottomPanel.add(showZone);
         this.add(bottomPanel, BorderLayout.SOUTH);
 
     }
+
+    public JButton getShowZone() { return showZone; }
 
     public JButton getShowVO2max() { return showVO2max; }
 
@@ -49,6 +54,33 @@ public class OutputCard extends JPanel {
         JScrollPane scrollPane = new JScrollPane(Table);
         scrollPane.setPreferredSize(new Dimension(600, 300)); // make table smaller
         panel.add(scrollPane, BorderLayout.CENTER);
+    }
+
+    public JTextPane ZonePopUpWindow(String sport, double []timestamps, double calories){
+        String report = "___________________________________________________\n\n";
+
+        report += sport + "\n\n";
+
+        report += "Zone 1(Recovery Zone): " + timestamps[0] + "minutes\n";
+        report += "Zone 2(Aerobic Zone): " + timestamps[1] + "minutes\n";
+        report += "Zone 3(Tempo Zone): " + timestamps[2] + "minutes\n";
+        report += "Zone 4(Performance Zone): " + timestamps[3] + "minutes\n";
+        report += "Zone 5(Anaerobic Zone): " + timestamps[4] + "minutes\n\n";
+
+        report +="Calories(zone based): " + String.format("%.2f", calories) + "kcal\n";
+
+
+        JTextPane textPane = new JTextPane();
+        textPane.setText(report);
+        textPane.setEditable(false);
+        textPane.setOpaque(false);
+
+        JScrollPane scrollPane = new JScrollPane(textPane);
+        scrollPane.setOpaque(false);
+        scrollPane.setPreferredSize(new Dimension(300,200));
+        scrollPane.setBorder(null);
+
+        return textPane;
     }
 
 }
