@@ -19,10 +19,10 @@ public class METValuesHashMap {
         Map<String, Double> temp = new HashMap<>();
 
         //Sports that we extracted from the XML File.
-        temp.put("Running",10.0);
+        temp.put("Running",9.8);
         temp.put("Walking",3.5);
-        temp.put("Pool Swimming",11.0);
-        temp.put("Biking",6.5);
+        temp.put("Pool Swimming",6.0);
+        temp.put("Biking",4.0);
 
         this.metValues = Map.copyOf(temp);
     }

@@ -25,12 +25,12 @@ public class VO2max {
     public void evaluate(String sex){
         if (sex.equals("m")) {
             if (vo2Max > 50) evaluation =  "Superb!";
-            if (vo2Max > 40) evaluation = "Good!";
-            evaluation = "Average!";
+            else if (vo2Max > 40) evaluation = "Good!";
+            else evaluation = "Average!";
         } else {
             if (vo2Max > 44) evaluation = "Superb!";
-            if (vo2Max > 34) evaluation = "Good!";
-            evaluation = "Average!";
+            else if (vo2Max > 34) evaluation = "Good!";
+            else evaluation = "Average!";
         }
     }
 

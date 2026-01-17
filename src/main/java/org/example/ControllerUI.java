@@ -30,64 +30,70 @@ public class ControllerUI {
         view.getCard3().getLoadBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                chooseFile();
+                chooseFileAcition();
             }
         });
 
         view.getCard3().getShowVO2max().addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { VO2maxButton(); }
+            public void actionPerformed(ActionEvent e) { vo2maxButtonAcition(); }
         });
 
         view.getCard3().getShowZone().addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { ZoneEvaluationAction(); }
+            public void actionPerformed(ActionEvent e) { zoneEvaluationAction(); }
         });
 
         view.getCard3().getShowDailyAchivement().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dailyGoalButton();
+                dailyGoalButtonAcition();
             }
         });
+
+        view.getStartButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { startButtonAction(); }
+        });
+
         view.getNext1().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                next1Button();
+                next1ButtonAcition();
             }
         });
 
         view.getNext2().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                next2Button();
+                next2ButtonAcition();
             }
         });
 
         view.getCard3().getAddActivity().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addActivityData();
+                addActivityDataAcition();
             }
         });
 
         view.getCard1().getWeightField().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                goNext(view.getCard1().getWeightField());
+                goNextAcition(view.getCard1().getWeightField());
             }
         });
 
         view.getCard1().getAgeField().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                goNext(view.getCard1().getAgeField());
+                goNextAcition(view.getCard1().getAgeField());
             }
         });
         //TODO
     }
 
-    public void addActivityData() {
+    private void addActivityDataAcition() {
         JTextField sportField = new JTextField(10);
         JTextField distanceField = new JTextField(5);
         JTextField timeField = new JTextField(5);
@@ -153,7 +159,7 @@ public class ControllerUI {
         }
     }
 
-    private void dailyGoalButton(){
+    private void dailyGoalButtonAcition(){
         String report = "--- Daily Goal not provided ---\n\n";
         if(wantsDailyGoal){
             report = "--- Daily Goal Report ---\n\n";
@@ -199,7 +205,7 @@ public class ControllerUI {
         JOptionPane.showMessageDialog(null, scrollPane, "Daily Achievements", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    private void VO2maxButton(){
+    private void vo2maxButtonAcition(){
         String evaluation;
         double vo2Max = 0;
         double cal = 0;
@@ -262,7 +268,7 @@ public class ControllerUI {
 
     }
 
-    public void chooseFile() {
+    private void chooseFileAcition() {
         JFileChooser chooser = new JFileChooser();
         chooser.setMultiSelectionEnabled(true);
 
@@ -299,7 +305,7 @@ public class ControllerUI {
         }
     }
 
-    public void next1Button(){
+    private void next1ButtonAcition(){
         try {
             String check = view.getCard1().getGoalField().getText();
             double goal = 0;
@@ -326,7 +332,9 @@ public class ControllerUI {
         }
     }
 
-    public void next2Button() {
+    private void startButtonAction(){ view.showProfile(); }
+
+    private void next2ButtonAcition() {
         try {
             if (!view.getCard2().getHrButton().isSelected() && !view.getCard2().getMetButton().isSelected()) {
                 throw new IllegalArgumentException("You must select one option.");
@@ -337,7 +345,7 @@ public class ControllerUI {
         }
     }
 
-    public void goNext(JTextField cur){
+    private void goNextAcition(JTextField cur){
         if(cur == view.getCard1().getWeightField()) {
             view.getCard1().getAgeField().requestFocusInWindow();
         } else {
@@ -376,13 +384,23 @@ public class ControllerUI {
         }
     }
 
-    private void ZoneEvaluationAction(){
+    private void zoneEvaluationAction(){
         int age = Integer.parseInt(view.getCard1().getAgeField().getText());
         double weight = Double.parseDouble(view.getCard1().getWeightField().getText());
 
 
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+        if(activities.isEmpty()){
+            String report = "No data provided yet!";
+
+            JTextPane textPane = new JTextPane();
+            textPane.setText(report);
+            textPane.setEditable(false);
+            textPane.setOpaque(false);
+
+            contentPanel.add(textPane);
+        }
 
         for (Activity activity : activities) {
             ZoneEvaluation zone = new ZoneEvaluation(age, weight, activity);

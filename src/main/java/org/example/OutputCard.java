@@ -17,7 +17,8 @@ public class OutputCard extends JPanel {
 
     public OutputCard(){
         this.setLayout(new BorderLayout());
-        JPanel tableWrapper = new JPanel(new BorderLayout());;
+        JPanel tableWrapper = new JPanel(new BorderLayout());
+        tableWrapper.setOpaque(false);
         initTable(tableWrapper);
         this.add(tableWrapper, BorderLayout.CENTER);
 
@@ -27,6 +28,8 @@ public class OutputCard extends JPanel {
         bottomPanel.add(showDailyAchivement);
         bottomPanel.add(showVO2max);
         bottomPanel.add(showZone);
+
+        bottomPanel.setOpaque(false);
         this.add(bottomPanel, BorderLayout.SOUTH);
 
     }
@@ -53,6 +56,8 @@ public class OutputCard extends JPanel {
 
         JScrollPane scrollPane = new JScrollPane(Table);
         scrollPane.setPreferredSize(new Dimension(600, 300)); // make table smaller
+        scrollPane.setOpaque(false);
+        scrollPane.getViewport().setOpaque(false);
         panel.add(scrollPane, BorderLayout.CENTER);
     }
 
@@ -69,16 +74,10 @@ public class OutputCard extends JPanel {
 
         report +="Calories(zone based): " + String.format("%.2f", calories) + "kcal\n";
 
-
         JTextPane textPane = new JTextPane();
         textPane.setText(report);
         textPane.setEditable(false);
         textPane.setOpaque(false);
-
-        JScrollPane scrollPane = new JScrollPane(textPane);
-        scrollPane.setOpaque(false);
-        scrollPane.setPreferredSize(new Dimension(300,200));
-        scrollPane.setBorder(null);
 
         return textPane;
     }
